@@ -11,9 +11,13 @@ import (
 var (
 	errInvalidPointer = errors.New("invalid pointer")
 	errNotSettable    = errors.New("can not settable")
-	ErrNoRows         = sql.ErrNoRows
+
+	// ErrNoRows is an alias of sql.ErrNoRows
+	ErrNoRows = sql.ErrNoRows
 )
 
+// UnmarshalRow accepts an interface to scan in, there is one row could be scan even though
+// there are more than one rows, an ErrNoRows will be returned if have no rows.
 func UnmarshalRow(rows *sql.Rows, v interface{}) error {
 	if !rows.Next() {
 		if err := rows.Err(); err != nil {
@@ -42,6 +46,7 @@ func UnmarshalRow(rows *sql.Rows, v interface{}) error {
 	}
 }
 
+// UnmarshalRows accepts an interface which type must be ptr-slice
 func UnmarshalRows(rows *sql.Rows, v interface{}) error {
 	if err := must(v); err != nil {
 		return err
