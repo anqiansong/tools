@@ -14,7 +14,7 @@ var (
 	ErrNoRows         = sql.ErrNoRows
 )
 
-func unmarshalRow(rows *sql.Rows, v interface{}) error {
+func UnmarshalRow(rows *sql.Rows, v interface{}) error {
 	if !rows.Next() {
 		if err := rows.Err(); err != nil {
 			return err
@@ -42,7 +42,7 @@ func unmarshalRow(rows *sql.Rows, v interface{}) error {
 	}
 }
 
-func unmarshalRows(rows *sql.Rows, v interface{}) error {
+func UnmarshalRows(rows *sql.Rows, v interface{}) error {
 	if err := must(v); err != nil {
 		return err
 	}

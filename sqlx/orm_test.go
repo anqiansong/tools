@@ -18,7 +18,7 @@ func TestOrm(t *testing.T) {
 		assert.Nil(t, err)
 
 		var data int
-		err = unmarshalRow(row, &data)
+		err = UnmarshalRow(row, &data)
 		assert.Nil(t, err)
 		assert.Equal(t, 1, data)
 	})
@@ -35,7 +35,7 @@ func TestOrm(t *testing.T) {
 		rows, err := db.Query("select id,name,Age from user where id = ?", 1)
 		assert.Nil(t, err)
 
-		err = unmarshalRow(rows, &foo)
+		err = UnmarshalRow(rows, &foo)
 		assert.Nil(t, err)
 		assert.True(t, foo.Id == 1 && foo.Name == "test" && foo.Age == 20)
 	})
@@ -52,7 +52,7 @@ func TestOrm(t *testing.T) {
 		rows, err := db.Query("select id,name,age from user where id = ?", 1)
 		assert.Nil(t, err)
 
-		err = unmarshalRow(rows, &foo)
+		err = UnmarshalRow(rows, &foo)
 		assert.Nil(t, err)
 		assert.True(t, foo.Id == 1 && foo.Name == "test" && foo.Age == 0)
 	})
@@ -76,7 +76,7 @@ func TestOrm(t *testing.T) {
 		rows, err := db.Query("select id,name,age from user where id = ?", 1)
 		assert.Nil(t, err)
 
-		err = unmarshalRow(rows, &foo)
+		err = UnmarshalRow(rows, &foo)
 		assert.Nil(t, err)
 		assert.True(t, foo.Id == 1 && foo.Name == "test" && foo.Age == 20 && foo.IdNumber == "1001" && foo.Gender == "男")
 	})
@@ -89,7 +89,7 @@ func TestOrm(t *testing.T) {
 		rows, err := db.Query("select id from user where id = ?", 1)
 		assert.Nil(t, err)
 
-		err = unmarshalRows(rows, &foo)
+		err = UnmarshalRows(rows, &foo)
 		assert.Nil(t, err)
 		var ret []int
 		for _, i := range foo {
@@ -106,7 +106,7 @@ func TestOrm(t *testing.T) {
 		rows, err := db.Query("select id from user where id = ?", 1)
 		assert.Nil(t, err)
 
-		err = unmarshalRows(rows, &foo)
+		err = UnmarshalRows(rows, &foo)
 		assert.Nil(t, err)
 		assert.Equal(t, []int{1, 2}, foo)
 	})
@@ -123,7 +123,7 @@ func TestOrm(t *testing.T) {
 		rows, err := db.Query("select id from user where id = ?", 1)
 		assert.Nil(t, err)
 
-		err = unmarshalRows(rows, &foo)
+		err = UnmarshalRows(rows, &foo)
 		assert.Nil(t, err)
 		assert.Equal(t, []*Foo{
 			{
@@ -149,7 +149,7 @@ func TestOrm(t *testing.T) {
 		rows, err := db.Query("select id from user where id = ?", 1)
 		assert.Nil(t, err)
 
-		err = unmarshalRows(rows, &foo)
+		err = UnmarshalRows(rows, &foo)
 		assert.Nil(t, err)
 		assert.Equal(t, []*Foo{
 			{
