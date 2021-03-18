@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"tools/sqlx"
+	"github.com/anqiansong/tools/sqlx"
 
 	"github.com/DATA-DOG/go-sqlmock"
 )

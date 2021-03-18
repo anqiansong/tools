@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"tools/syncx"
+	"github.com/anqiansong/tools/syncx"
 )
 
 func ExampleSingleFlight() {
