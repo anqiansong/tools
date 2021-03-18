@@ -2,7 +2,6 @@ package rpcx
 
 import (
 	"net"
-	"time"
 
 	"github.com/anqiansong/tools/rpcx/server"
 
@@ -13,6 +12,7 @@ const netWorkTcp = "tcp"
 
 type ServerConfig struct {
 	ListenOn string
+	Auth     bool
 }
 
 type Register func(server *grpc.Server)
@@ -55,9 +55,17 @@ func (s *defaultServer) AddStreamServerInterceptor(interceptors ...grpc.StreamSe
 }
 
 func (s *defaultServer) Serve(register Register) error {
+	authorization := server.NewAuthorization(s.conf.Auth)
 	options := []grpc.ServerOption{
-		server.MetricServerOption,
+		server.UnaryCrashHandler(),
+		server.UnaryAuthorization(authorization),
+		server.UnaryMetric(),
+
+		server.StreamCrashHandler(),
+		server.StreamAuthorization(authorization),
+		server.StreamMetric(),
 	}
+
 	options = append(options, s.options...)
 	serv := grpc.NewServer(options...)
 	register(serv)
@@ -67,18 +75,4 @@ func (s *defaultServer) Serve(register Register) error {
 	}
 
 	return serv.Serve(lis)
-}
-
-// WithTimeOutServerOption returns a ServerOption type to control timeout
-func WithTimeOutServerOption(timeout time.Duration) ServerOption {
-	return func(s Server) {
-		s.AddUnaryServerInterceptor(server.TimeOut(timeout))
-	}
-}
-
-// WithDeadlineServerOption returns a ServerOption type to control deadline
-func WithDeadlineServerOption(at time.Time) ServerOption {
-	return func(s Server) {
-		s.AddUnaryServerInterceptor(server.Deadline(at))
-	}
 }
