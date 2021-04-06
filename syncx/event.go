@@ -35,5 +35,5 @@ func (e *Event) Fire() {
 
 // HasFired returns a value whether the event has done or not
 func (e *Event) HasFired() bool {
-	return atomic.CompareAndSwapInt32(&e.fired, 1, 1)
+	return atomic.LoadInt32(&e.fired) == 1
 }
