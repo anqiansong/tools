@@ -1,4 +1,4 @@
-// protoc --go_out=. --go-grpc_out=. greet.proto
+//x:generate protoc --go_out=. --go-grpc_out=. greet.proto
 
 syntax = "proto3";
 
