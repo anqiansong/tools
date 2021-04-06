@@ -13,16 +13,19 @@ type Event struct {
 	once  sync.Once
 }
 
+// NewEvent returns a ready-to-use instance
 func NewEvent() *Event {
 	return &Event{
 		done: make(chan struct{}),
 	}
 }
 
+// Done returns a read-only channel
 func (e *Event) Done() <-chan struct{} {
 	return e.done
 }
 
+// Fire fires event done and close the done channel
 func (e *Event) Fire() {
 	e.once.Do(func() {
 		atomic.StoreInt32(&e.fired, 1)
@@ -30,6 +33,7 @@ func (e *Event) Fire() {
 	})
 }
 
+// HasFired returns a value whether the event has done or not
 func (e *Event) HasFired() bool {
 	return atomic.CompareAndSwapInt32(&e.fired, 1, 1)
 }
